@@ -8,7 +8,7 @@ before_install:
  - sudo apt-get install -y -qq gcc-4.8 g++-4.8 zlib1g-dev libbz2-dev libsnappy-dev libjemalloc-dev libgtest-dev
  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50
- - "cd /usr/src/gtest && sudo mkdir build && cd build && sudo cmake .. && make"
+ - "cd /usr/src/gtest && sudo mkdir build && cd build && sudo cmake .. && sudo make"
 # Lousy hack to disable use and testing of fallocate, which doesn't behave quite
 script: GTEST_DIR=/usr/src/gtest make test
 notifications:
