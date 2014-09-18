@@ -29,9 +29,9 @@ ItemBuilder::~ItemBuilder() {
 }
 
 bool ItemBuilder::AddAttr(const std::string& name,
-                               AttrType type,
-                               const char* value,
-                               size_t value_len) {
+                          AttrType type,
+                          const char* value,
+                          size_t value_len) {
     bool ok = name.length() < kAttrNameMaxLength;
     if (ok) {
         for (std::vector<Attr>::const_iterator iter = attrs_.begin();
