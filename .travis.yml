@@ -10,6 +10,9 @@ before_install:
  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50
  - "cd /usr/src/gtest && sudo mkdir build && cd build && sudo cmake .. && sudo make"
 # Lousy hack to disable use and testing of fallocate, which doesn't behave quite
+before_script:
+    - pwd
+    - ls -al
 script: GTEST_DIR=/usr/src/gtest make test
 notifications:
     recipients:
