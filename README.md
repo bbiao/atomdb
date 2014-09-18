@@ -1,4 +1,4 @@
-atomdb
+AtomDB
 ======
 
 RocksDB with schema.
