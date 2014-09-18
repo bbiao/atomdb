@@ -1,5 +1,8 @@
 #include "atomdb/schema.h"
 #include <assert.h>
+#include <stdio.h>
+#include <string.h>
+#include <algorithm>
 
 namespace atomdb {
 
