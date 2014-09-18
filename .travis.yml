@@ -13,7 +13,7 @@ before_install:
 before_script:
     - pwd
     - ls -al
-script: GTEST_DIR=/usr/src/gtest make test
+script: pwd && GTEST_DIR=/usr/src/gtest make test
 notifications:
     recipients:
         - bbbiao@gmail.com
