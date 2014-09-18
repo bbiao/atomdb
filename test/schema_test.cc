@@ -59,6 +59,14 @@ TEST_F(SchemaTest, AddAttrTwice) {
     EXPECT_FALSE(ok);
 }
 
+TEST_F(SchemaTest, ResetBuilder) {
+    ItemBuilder builder;
+    EXPECT_TRUE(builder.AddAttr("a", S, "a", 2));
+    EXPECT_TRUE(builder.AddAttr("b", S, "b", 2));
+
+    builder.Reset();
+}
+
 }
 
 int main(int argc, char** argv) {

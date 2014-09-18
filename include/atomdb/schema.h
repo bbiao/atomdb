@@ -45,6 +45,7 @@ public:
 
     bool AddAttr(const std::string& name, AttrType type, const char* value, size_t value_len);
     bool Serialize(std::string* output);
+    void Reset();
 private:
     std::vector<Attr> attrs_;
     std::string buffer_;

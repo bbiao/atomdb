@@ -74,4 +74,10 @@ bool ItemBuilder::Serialize(std::string* output) {
     return ok;
 }
 
+void ItemBuilder::Reset() {
+    offset_ = 0;
+    attrs_.clear();
+    buffer_.clear();
+}
+
 }//namespace atomdb
