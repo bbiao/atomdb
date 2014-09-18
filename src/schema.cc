@@ -20,7 +20,7 @@ bool ParseItem(const std::string& data, Item* item) {
     return ok;
 }
 
-ItemBuilder::ItemBuilder() {
+ItemBuilder::ItemBuilder(): offset_(0u) {
 
 }
 
@@ -28,21 +28,33 @@ ItemBuilder::~ItemBuilder() {
 
 }
 
-bool ItemBuilder::AddAttrValue(const std::string& name, AttrType type, const char* value, size_t value_len) {
+bool ItemBuilder::AddAttr(const std::string& name,
+                               AttrType type,
+                               const char* value,
+                               size_t value_len) {
     bool ok = name.length() < kAttrNameMaxLength;
     if (ok) {
-        AttrValue attr;
+        for (std::vector<Attr>::const_iterator iter = attrs_.begin();
+                iter != attrs_.end(); ++iter) {
+            if (name == iter->name) {
+                return false;
+            }
+        }
+
+        Attr attr;
         attr.type = type;
         attr.length = value_len;
         snprintf(attr.name, kAttrNameMaxLength, "%s", name.c_str());
-        attr.value = value;
+        buffer_.append(value, value_len);
+        attr.offset = offset_;
+        offset_ += value_len;
         attrs_.push_back(attr);
     }
 
     return ok;
 }
 
-bool item_attr_cmp(const AttrValue& i, const AttrValue& j) {
+bool item_attr_cmp(const Attr& i, const Attr& j) {
     return strcmp(i.name, j.name);
 }
 
@@ -50,19 +62,13 @@ bool ItemBuilder::Serialize(std::string* output) {
     bool ok = true;
     std::sort(attrs_.begin(), attrs_.end(), item_attr_cmp);
 
-    uint32_t offset = 0;
-    for (std::vector<AttrValue>::iterator iter = attrs_.begin(); iter != attrs_.end(); ++iter) {
-        output->append(iter->value, iter->length);
-        iter->offset = offset;
-        offset += iter->length;
-    }
-
-    for (std::vector<AttrValue>::iterator iter = attrs_.begin(); iter != attrs_.end(); ++iter) {
+    output->assign(buffer_.data(), buffer_.length());
+    for (std::vector<Attr>::iterator iter = attrs_.begin(); iter != attrs_.end(); ++iter) {
         output->append(reinterpret_cast<char*>(&(*iter)), sizeof(Attr));
     }
 
     ItemMeta meta;
-    meta.attr_offset = offset;
+    meta.attr_offset = offset_;
     meta.attr_count = attrs_.size();
     output->append(reinterpret_cast<char*>(&meta), sizeof(ItemMeta));
     return ok;

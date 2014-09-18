@@ -36,21 +36,19 @@ struct Item {
     ItemMeta* meta;
 };
 
-bool ParseItem(const std::string& data);
-
-struct AttrValue : Attr {
-    const char* value;
-};
+bool ParseItem(const std::string& data, Item* item);
 
 class ItemBuilder {
 public:
     ItemBuilder();
     virtual ~ItemBuilder();
 
-    bool AddAttrValue(const std::string& name, AttrType type, const char* value, size_t value_len);
+    bool AddAttr(const std::string& name, AttrType type, const char* value, size_t value_len);
     bool Serialize(std::string* output);
 private:
-    std::vector<AttrValue> attrs_;
+    std::vector<Attr> attrs_;
+    std::string buffer_;
+    uint32_t offset_;
 };
 
 }//namespace atomdb
