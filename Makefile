@@ -22,7 +22,7 @@ clean :
 	rm -rf $(OBJECTS) libatomdb.a schema_test
 
 schema_test : test/schema_test.cc libatomdb.a
-	$(CXX) $(INCPATH) $(CXXFLAGS) -I$(GTEST_DIR)/include -L$(GTEST_DIR)/build -L./ $< -latomdb -lgtest -o $@
+	$(CXX) $(INCPATH) $(CXXFLAGS) -I$(GTEST_DIR)/include -L$(GTEST_DIR)/build -L./ $< -latomdb -lgtest -lpthread -o $@
 
 test : schema_test
 	./schema_test
